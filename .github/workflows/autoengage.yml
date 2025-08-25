@@ -1,24 +1,35 @@
 name: AutoEngage
+
 on:
   schedule:
-    - cron: "*/5 * * * *"
-  workflow_dispatch:
+    - cron: "*/5 * * * *"   # alle 5 Minuten
+  workflow_dispatch:        # manuell starten möglich
+
 permissions:
   contents: read
+
 concurrency:
   group: autoengage
   cancel-in-progress: false
+
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
-        with: { node-version: 20, cache: 'npm' }
+        with:
+          node-version: 20
+          cache: 'npm'
+
       - name: Set TZ
         run: echo "TZ=Europe/Berlin" >> $GITHUB_ENV
-      - run: npm ci
-      - name: Run
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+
+      - name: Run script
         run: node scripts/run.js
         env:
           X_BEARER: ${{ secrets.X_BEARER }}
