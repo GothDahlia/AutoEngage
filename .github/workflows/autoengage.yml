@@ -2,7 +2,7 @@ name: AutoEngage
 
 on:
   schedule:
-    - cron: "*/20 * * * *"   # alle 5 Minuten
+    - cron: "*/15 * * * *"   # alle 5 Minuten
   workflow_dispatch:        # manuell starten möglich
 
 permissions:

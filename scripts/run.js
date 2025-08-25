@@ -50,9 +50,16 @@ function buildUrl(api, pathname, params) {
 async function xGet(api, path, params = {}) {
   const url = buildUrl(api, path, params);
   const r = await fetch(url, { headers: { Authorization: oauthHeader("GET", url, params) } });
+
+  if (r.status === 429) {
+    console.error("Rate limited (429), skipping this run");
+    return { data: [] };   
+  }
+
   if (!r.ok) throw new Error(`GET ${path} -> ${r.status} ${await r.text()}`);
   return r.json();
 }
+
 
 async function xPost(api, path, bodyObj = {}, params = {}) {
   const url = buildUrl(api, path, params);
