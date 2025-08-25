@@ -83,12 +83,15 @@ async function resolveUserId(username){
 async function fetchNewestSince(userId, sinceId){
   const params = {
     exclude: "retweets,replies",
-    "max_results": "1",
+    "max_results": "5",
     "tweet.fields": "created_at"
   };
   if (sinceId) params.since_id = sinceId;
+  if (!sinceId) params.start_time = new Date(Date.now() - 10*60*1000).toISOString();
+  
   const d = await xGet(`/users/${userId}/tweets`, params);
-  return d?.data ?? [];
+  const arr = d?.data ?? [];
+  return arr.length ? [arr[0]] : [];
 }
 
 async function retweet(actorUserId, tweetId){
