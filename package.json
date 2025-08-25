@@ -1,0 +1,10 @@
+{
+  "name": "spoilbot-vercel",
+  "version": "1.0.0",
+  "type": "module",
+  "dependencies": {
+    "googleapis": "^118.0.0",
+    "google-auth-library": "^9.0.0",
+    "node-fetch": "^3.3.2"
+  }
+}
