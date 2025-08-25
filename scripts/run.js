@@ -131,12 +131,15 @@ async function main(){
   await retweet(myId, t.id);
   console.log(`Retweeted ${t.id}`);
 
-  const c1 = fill(pickRandom(rtList), {handle:TARGET_USERNAME,url});
+  const shuffledRt = rtList.sort(() => 0.5 - Math.random());
+  const shuffledTag = tagList.sort(() => 0.5 - Math.random());
+
+  const c1 = fill(shuffledRt[0], { handle: TARGET_USERNAME, url });
   await sleep(1200);
   await reply(c1, t.id);
   console.log("Reply 1 posted");
 
-  const c2 = fill(pickRandom(tagList), {handle:TARGET_USERNAME,url});
+  const c2 = fill(shuffledTag[0], { handle: TARGET_USERNAME, url });
   await sleep(1200);
   await reply(c2, t.id);
   console.log("Reply 2 posted");
