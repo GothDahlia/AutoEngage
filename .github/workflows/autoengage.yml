@@ -3,21 +3,26 @@ on:
   schedule:
     - cron: "*/5 * * * *"
   workflow_dispatch:
+permissions:
+  contents: read
+concurrency:
+  group: autoengage
+  cancel-in-progress: false
 jobs:
   run:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
-        with: { node-version: 20 }
+        with: { node-version: 20, cache: 'npm' }
+      - name: Set TZ
+        run: echo "TZ=Europe/Berlin" >> $GITHUB_ENV
       - run: npm ci
-      - run: node scripts/run.js
+      - name: Run
+        run: node scripts/run.js
         env:
           X_BEARER: ${{ secrets.X_BEARER }}
-          SECONDARY_USER_ID: ${{ secrets.SECONDARY_USER_ID }}
-          GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-          GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
-          GOOGLE_REFRESH_TOKEN: ${{ secrets.GOOGLE_REFRESH_TOKEN }}
-          GMAIL_QUERY: ${{ secrets.GMAIL_QUERY }}
-          HASH_LIST: ${{ secrets.HASH_LIST }}
-          AT_LIST: ${{ secrets.AT_LIST }}
+          ACTOR_USER_ID: ${{ secrets.SECONDARY_USER_ID }}
+          TARGET_USERNAME: SpoilSarahXO
+          RTLIST_PATH: RTLIST
+          TAGLIST_PATH: TAGLIST

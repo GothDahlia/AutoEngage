@@ -1,9 +1,12 @@
 {
   "name": "autoengage",
-  "version": "1.0.0",
+  "private": true,
   "type": "module",
+  "version": "0.2.0",
+  "scripts": {
+    "start": "node scripts/run.js"
+  },
   "dependencies": {
-    "googleapis": "^118.0.0",
     "node-fetch": "^3.3.2"
   }
 }
